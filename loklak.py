@@ -13,6 +13,9 @@ import requests
 
 class Loklak (object):
 	baseUrl = 'http://loklak.org/api/'
+
+	def __init__(self):
+		print "You haven't called a function yet, but looks like you've created an object"
 	
 
 
