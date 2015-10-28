@@ -10,13 +10,58 @@ import sys
 import time
 from collections import namedtuple
 import requests
+import json
 
 class Loklak (object):
 	baseUrl = 'http://loklak.org/api/'
+	name = None
 
-	def __init__(self):
-		print "You haven't called a function yet, but looks like you've created an object"
-	
+	def status(self):
+		statusAPI = 'status.json'
+		Url = self.baseUrl+statusAPI
+		r = requests.get(Url)
+		if r.status_code == 200:
+			return r.json()
+		else:
+			r = {}
+			return json.dumps(r)
+
+	def hello(self):
+		helloAPI = 'hello.json'
+		Url = self.baseUrl+helloAPI
+		r = requests.get(Url)
+		if r.status_code == 200:
+			return r.json()
+		else:
+			r = {}
+			return json.dumps(r)
+
+	def peers(self):
+		peersAPI = 'peers.json'
+		Url = self.baseUrl+peersAPI
+		r = requests.get(Url)
+		if r.status_code == 200:
+			return r.json()
+		else:
+			r = {}
+			return json.dumps(r)
+
+	def user(self, name = None):
+		userAPI = 'user.json'
+		Url = self.baseUrl+userAPI
+		self.name = name
+		if name:
+			params =  { 'screen_name' : self.name }
+			r = requests.get(Url, params=params)
+			if r.status_code == 200:
+				return r.json()
+			else:
+				r = {}
+				return json.dumps(r)
+		else:
+			r = {}
+			r['error'] = 'No user name given to query. Please check and try again'
+			return json.dumps(r)
 
 
 def main():
