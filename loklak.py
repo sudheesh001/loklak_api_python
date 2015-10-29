@@ -15,6 +15,8 @@ import json
 class Loklak (object):
 	baseUrl = 'http://loklak.org/api/'
 	name = None
+	followers = None
+	following = None
 
 	def status(self):
 		statusAPI = 'status.json'
@@ -46,12 +48,20 @@ class Loklak (object):
 			r = {}
 			return json.dumps(r)
 
-	def user(self, name = None):
+	def user(self, name = None, followers=None, following=None):
 		userAPI = 'user.json'
 		Url = self.baseUrl+userAPI
 		self.name = name
+		self.followers = followers
+		self.following = following
 		if name:
-			params =  { 'screen_name' : self.name }
+			params = {}
+			params['screen_name'] = self.name
+			if followers is not None:
+				params['followers'] = self.followers
+			if following is not None:
+				params['following'] = self.following
+
 			r = requests.get(Url, params=params)
 			if r.status_code == 200:
 				return r.json()
