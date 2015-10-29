@@ -9,6 +9,9 @@ l = Loklak()
 #######################################
 #		   Usage and Testings         #
 #######################################
+# Loklak settings API
+settings = l.settings()
+pprint(settings)
 
 # Loklak Status API
 

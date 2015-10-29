@@ -73,6 +73,17 @@ class Loklak (object):
 			r['error'] = 'No user name given to query. Please check and try again'
 			return json.dumps(r)
 
+	def settings(self):
+		settingsAPI = 'settings.json'
+		Url = 'http://localhost:9000/api/'+settingsAPI
+		r = requests.get(Url)
+		if r.status_code == 200:
+			return r.json()
+		else:
+			r = {}
+			 r['error'] = 'This API has access restrictions: only localhost clients are granted.'
+			return json.dumps(r)
+
 
 def main():
 	"""
