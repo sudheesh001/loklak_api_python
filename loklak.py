@@ -17,6 +17,15 @@ class Loklak (object):
 	name = None
 	followers = None
 	following = None
+	q = None
+	since = None
+	until = None
+	source = None
+	count = None
+	fields = None
+	fromUser = None
+	fields = None
+	limit = None
 
 	def status(self):
 		statusAPI = 'status.json'
@@ -81,9 +90,75 @@ class Loklak (object):
 			return r.json()
 		else:
 			r = {}
-			 r['error'] = 'This API has access restrictions: only localhost clients are granted.'
+			r['error'] = 'This API has access restrictions: only localhost clients are granted.'
 			return json.dumps(r)
 
+	def search(self, q=None, since=None, until=None, fromUser=None):
+		searchAPI = 'search.json'
+		Url = self.baseUrl+searchAPI
+		self.q = q
+		self.since = since
+		self.until = until
+		self.fromUser = fromUser
+		if q:
+			params = {}
+			params['q'] = self.q
+			if since:
+				params['q'] = params['q']+' since:'+self.since
+			if until:
+				params['q'] = params['q']+' until:'+self.until
+			if fromUser:
+				params['q'] = params['q']+' from:'+self.fromUser
+			r = requests.get(Url, params=params)
+			if r.status_code == 200:
+				return r.json()
+			else:
+				r = {}
+				r['error'] = 'Something went wrong, Looks like the server is down.'
+				return json.dumps(r)
+		else:
+			r = {}
+			r['error'] = 'No Query string has been given to run a query for'
+			return r.dumps(r)
+
+	def aggregations(self, q=None, since=None, until=None, fields=None, limit=None):
+		aggregationsAPI = 'search.json'
+		Url = self.baseUrl+aggregationsAPI
+		self.q = q
+		self.since = since
+		self.until = until
+		self.fields = fields # Array seperated values to be passed
+		self.limit = limit
+		if q:
+			params = {}
+			params['q'] = self.q
+			if since:
+				params['q'] = params['q']+' since:'+self.since
+			if until:
+				params['q'] = params['q']+' until:'+self.until
+			if fields:
+				fieldStringCSV = ''
+				for i in self.fields:
+					fieldStringCSV+=i+','
+				params['fields'] = fieldStringCSV
+			if limit:
+				params['limit'] = self.limit
+			if limit == None:
+				limit = 6
+				params['limit'] = self.limit
+			params['count'] = 0
+			params['source'] = 'cache'
+			r = requests.get(Url, params=params)
+			if r.status_code == 200:
+				return r
+			else:
+				r = {}
+				r['error'] = 'Something went wrong, Looks like the server is down.'
+				return json.dumps(r)
+		else:
+			r = {}
+			r['error'] = 'No Query string has been given to run an aggregation query for'
+			return r.dumps(r)
 
 def main():
 	"""
