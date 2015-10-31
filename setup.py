@@ -15,7 +15,7 @@ setup(name='python-loklak-api',
       platforms='Linux/Mac',
       py_modules=['loklak'],
       classifiers=[
-          'Development Status :: 1 - Alpha',
+          'Development Status :: 3 - Alpha',
           'Intended Audience :: Developers',
           'Programming Language :: Python',
           'Programming Language :: Python :: 2',
@@ -29,6 +29,6 @@ setup(name='python-loklak-api',
         "wsgiref==0.1.2"
       ],
       zip_safe=False,
-      download_url = 'https://github.com/gearsystems/nonude',
+      download_url = 'https://github.com/sudheesh001/python-loklak-api',
       entry_points={'console_scripts': ['python-loklak-api = loklak:main']},
       )
