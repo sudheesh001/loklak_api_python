@@ -5,10 +5,6 @@ try:
 except ImportError:
     from distutils.core import setup
 
-
-install_reqs = parse_requirements('requirements.txt', session=uuid.uuid1())
-reqs = [str(req.req) for req in install_reqs]
-
 setup(name='python-loklak-api',
 	  version='1.0',
 	  description="Python API for loklak, Anonymous distributed P2P Systems.",
@@ -27,6 +23,11 @@ setup(name='python-loklak-api',
           'Topic :: Internet',
           ],
       keywords="Twitter Loklak Anonymous API",
+      install_requires = [
+        "asyncoro==3.5",
+        "requests==2.8.1",
+        "wsgiref==0.1.2"
+      ],
       zip_safe=False,
       download_url = 'https://github.com/gearsystems/nonude',
       entry_points={'console_scripts': ['python-loklak-api = loklak:main']},
