@@ -88,4 +88,12 @@ pprint(search5)
 search6 = l.search('sudheesh001', '2015-01-10', '2015-01-21','sudheesh001')
 pprint(search6)
 
+###  account
+account1 = l.account('name')
+pprint(account1)
 
+account2 = l.account('update','name','token','token_secret')
+pprint(account2)
+
+account3 = l.account('update','name','type')
+pprint(account3)
