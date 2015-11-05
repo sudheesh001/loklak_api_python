@@ -21,4 +21,49 @@ If you like to be anonymous when searching things, want to archive tweets or mes
 --------------------------------------------
 
 # Documentation of the API and Usage Examples
-(In Progress)
+
+To use the loklak app, first an object of the loklak type needs to be created. Do the following to install the `pip` module and add it to your `requirements` for the application.
+
+`pip install python-loklak-api`
+
+Loklak once installed, can be used in the application as
+
+`from loklak import Loklak`
+
+To create a loklak object you can assign the `Loklak()` object to a variable.
+`variable = Loklak()`
+
+eg. `l = Loklak()`
+
+### API Documentation
+
+##### Status of the Loklak server
+Using the object created above, `l.status()` returns a json of the status as follows
+
+```json
+{
+  "index_sizes" : {
+    "messages" : 48683271,
+    "users" : 14948939,
+    "queries" : 726,
+    "accounts" : 53,
+    "user" : 5072266,
+    "followers" : 90,
+    "following" : 72
+  },
+  "client_info" : {
+    "RemoteHost" : "",
+    "IsLocalhost" : "false",
+    "Accept-Language" : "en-US,en;q=0.5",
+    "Host" : "loklak.org",
+    "Accept-Encoding" : "gzip, deflate",
+    "X-Forwarded-For" : "",
+    "X-Real-IP" : "",
+    "Via" : "1.1 proxy14.nitw (squid/3.1.8)",
+    "User-Agent" : "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:42.0) Gecko/20100101 Firefox/42.0",
+    "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Connection" : "close",
+    "Cache-Control" : "max-age=259200"
+  }
+}
+```
