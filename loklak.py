@@ -163,42 +163,42 @@ class Loklak (object):
 			return r.dumps(r)
 
 	def account(self, name=None, action=None, data =None):
-        accountAPI = 'account.json'
-        Url = 'http://localhost:9000/api/'+accountAPI
-        self.name = name
-        self.data = data
-        self.action = action
-        # Simple GET Query
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0',
-            'From': 'info@loklak.org'
-        }
-        if name:
-            params = {}
-            params['screen_name'] = self.name
-            r = requests.get(Url, params=params, headers=headers)
-            if r.status_code == 200:
-                return r.json()
-            else:
-                r = {}
-                r['error'] = 'Something went wrong, Looks query is wrong.'
-                return json.dumps(r)
-        # if action = update and data is provided, then make request
-        elif self.action == 'update' and data:
-            params = {}
-            params['action']=self.action
-            params['data']=self.data
-            r = requests.post(Url, params=params, headers=headers)
-            if r.status_code == 200:
-                return r.json()
-            else:
-                r = {}
-                r['error'] = 'Something went wrong, Looks query is wrong.'
-                return json.dumps(r)
-        else:
-            r = {}
-            r['error'] = 'No Query string has been given to run an query for account'
-            return json.dumps(r)
+		accountAPI = 'account.json'
+		Url = 'http://localhost:9000/api/'+accountAPI
+		self.name = name
+		self.data = data
+		self.action = action
+		# Simple GET Query
+		headers = {
+			'User-Agent': 'Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0',
+			'From': 'info@loklak.org'
+		}
+		if name:
+			params = {}
+			params['screen_name'] = self.name
+			r = requests.get(Url, params=params, headers=headers)
+			if r.status_code == 200:
+				return r.json()
+			else:
+				r = {}
+				r['error'] = 'Something went wrong, Looks query is wrong.'
+				return json.dumps(r)
+		# if action = update and data is provided, then make request
+		elif self.action == 'update' and data:
+			params = {}
+			params['action']=self.action
+			params['data']=self.data
+			r = requests.post(Url, params=params, headers=headers)
+			if r.status_code == 200:
+				return r.json()
+			else:
+				r = {}
+				r['error'] = 'Something went wrong, Looks query is wrong.'
+				return json.dumps(r)
+		else:
+			r = {}
+			r['error'] = 'No Query string has been given to run an query for account'
+			return json.dumps(r)
 
 
 def main():
