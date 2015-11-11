@@ -67,3 +67,46 @@ Using the object created above, `l.status()` returns a json of the status as fol
   }
 }
 ```
+
+##### Settings of the loklak server (strictly only for localhost clients)
+
+Using the object created above `l.settings()` returns a json of the settings being used by the loklak server
+
+##### Hello test - Check if the server is responding properly and is online
+
+Using the object created above `l.hello()` returns a json response of the status of the server
+
+When the server is online, the json should read
+```json
+
+```
+
+##### Peers - API To find out the loklak peers
+
+Finding the list of loklak peers, use the object created above `l.peers()` which returns a json response containing all the peers connected to `loklak.org`
+
+##### Users API
+
+What this can do ?
+
+- Fetch the details of one user
+- Fetch the details of the user along with number of their followes and following
+- Fetch only the followers / following of a particular user
+
+Query Structure: `l.user(<username>,<followers count>,<following count>)`
+
+`<username>` is a string, eg. `'loklak_app'`
+`<followers count>` and `<following count>` is a numeric or a string or `None`
+
+eg. `l.user('loklak_app')`
+eg. `l.user('loklak_app',1000)` - 1000 followers of `loklak_app`
+eg. `l.user('loklak_app',1000,1000)` - 1000 followers and following of `loklak_app`
+eg. `l.user('loklak_app',None,1000)` - 1000 following of `loklak_app`
+
+##### Accounts API
+
+
+##### Search API
+
+
+##### Aggregations API
