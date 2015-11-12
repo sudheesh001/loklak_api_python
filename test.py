@@ -92,8 +92,5 @@ pprint(search6)
 account1 = l.account('name')
 pprint(account1)
 
-account2 = l.account('update','name','token','token_secret')
-pprint(account2)
-
-account3 = l.account('update','name','type')
+account2 = l.account('name','update','type')
 pprint(account3)

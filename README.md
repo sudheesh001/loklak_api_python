@@ -104,9 +104,18 @@ eg. `l.user('loklak_app',1000,1000)` - 1000 followers and following of `loklak_a
 eg. `l.user('loklak_app',None,1000)` - 1000 following of `loklak_app`
 
 ##### Accounts API
+LOCALHOST ONLY, Loklak server running on port `localhost:9000`
 
+To query the user account details of the data within the loklak server, use
+`l.account('name')` where `'name'` is the screen_name of the user whose information is required.
+
+To update the user details within the server, package a `json` object with the following parameters and other parameters which needs to be pushed to the server and use the `action=update` where `action` is the 2nd parameter of the `account()` api
+
+`l.account('name','update','{ json object }')`
 
 ##### Search API
+
+Public search API for the scraped tweets from Twitter.
 
 
 ##### Aggregations API
