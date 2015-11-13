@@ -78,7 +78,7 @@ Using the object created above `l.hello()` returns a json response of the status
 
 When the server is online, the json should read
 ```json
-
+{u'status': u'ok'}
 ```
 
 ##### Peers - API To find out the loklak peers
@@ -117,5 +117,115 @@ To update the user details within the server, package a `json` object with the f
 
 Public search API for the scraped tweets from Twitter.
 
+Query structure: `search('querycontent','since date','until date', 'from a specific user')`
+
+eg. l.search('doctor who')
+
+A search result in json looks as follows.
+```json
+{
+  "search_metadata" : {
+    "startIndex" : "0",
+    "itemsPerPage" : "100",
+    "count" : "120",
+    "query" : "doctor who"
+  },
+  "statuses" : [ {
+    "created_at" : "2015-03-03T19:30:43.000Z",
+    "screen_name" : "exanonym77s",
+    "text" : "check #DoctorWho forums #TheDayOfTheDoctor #TheMaster @0rb1t3r http://www.thedoctorwhoforum.com/ https://pic.twitter.com/FvW6J9WMCw",
+    "link" : "https://twitter.com/ronakpw/status/572841550834737152",
+    "id_str" : "572841550834737152",
+    "source_type" : "TWITTER",
+    "provider_type" : "SCRAPED",
+    "retweet_count" : 0,
+    "favourites_count" : 0,
+    "hosts" : [ "www.thedoctorwhoforum.com", "pic.twitter.com" ],
+    "hosts_count" : 2,
+    "links" : [ "http://www.thedoctorwhoforum.com/", "https://pic.twitter.com/FvW6J9WMCw" ],
+    "links_count" : 2,
+    "mentions" : [ "@0rb1t3r" ],
+    "mentions_count" : 1,
+    "hashtags" : [ "DoctorWho", "TheDayOfTheDoctor", "TheMaster" ],
+    "hashtags_count" : 3,
+    "without_l_len" : 62,
+    "without_lu_len" : 62,
+    "without_luh_len" : 21,
+    "user" : {
+      "name" : "Example User Anyone",
+      "screen_name" : "exanonym77s",
+      "profile_image_url_https" : "https://pbs.twimg.com/profile_images/567071565473267713/4hiyjKkF_bigger.jpeg",
+      "appearance_first" : "2015-03-03T19:31:30.269Z",
+      "appearance_latest" : "2015-03-03T19:31:30.269Z"
+    }
+  }, ...
+  ]
+}
+```
+
+Mentioning the Since and Until dates
+
+eg. `l.search('sudheesh001', '2015-01-10', '2015-01-21')`
+
+Which results in a json as follows
+```json
+{u'search_metadata': {u'client': u'14.139.85.200',
+                      u'count': u'3',
+                      u'count_backend': 0,
+                      u'count_cache': 3,
+                      u'count_twitter_all': 0,
+                      u'count_twitter_new': 0,
+                      u'hits': 3,
+                      u'itemsPerPage': u'100',
+                      u'period': 103487501,
+                      u'query': u'sudheesh001 since:2015-01-10 until:2015-01-21',
+                      u'servicereduction': u'false',
+                      u'time': 2001},
+ u'statuses': [{u'audio': [],
+                u'audio_count': 0,
+                u'classifier_language': u'english',
+                u'classifier_language_probability': 0.00043833465,
+                u'created_at': u'2015-01-19T04:25:38.000Z',
+                u'favourites_count': 0,
+                u'hashtags': [],
+                u'hashtags_count': 0,
+                u'hosts': [],
+                u'hosts_count': 0,
+                u'id_str': u'557031100065648640',
+                u'images': [],
+                u'images_count': 0,
+                u'link': u'https://twitter.com/sudheesh001/status/557031100065648640',
+                u'links': [],
+                u'links_count': 0,
+                u'mentions': [u'imasaikiran', u'sudheesh001'],
+                u'mentions_count': 2,
+                u'place_context': u'ABOUT',
+                u'place_id': u'',
+                u'place_name': u'',
+                u'provider_hash': u'1cadbfd3',
+                u'provider_type': u'REMOTE',
+                u'retweet_count': 0,
+                u'screen_name': u'sudheesh001',
+                u'source_type': u'TWITTER',
+                u'text': u'@imasaikiran @sudheesh001 done !! \U0001f60a',
+                u'user': {u'appearance_first': u'2015-11-13T02:05:19.861Z',
+                          u'appearance_latest': u'2015-11-13T02:05:19.861Z',
+                          u'name': u'SudheeshSinganamalla',
+                          u'profile_image_url_https': u'https://pbs.twimg.com/profile_images/500559201542762498/IvDEqWy1_bigger.jpeg',
+                          u'screen_name': u'sudheesh001',
+                          u'user_id': u'390171807'},
+                u'videos': [],
+                u'videos_count': 0,
+                u'without_l_len': 36,
+                u'without_lu_len': 10,
+                u'without_luh_len': 10}
+            ]}
+```
+
+Valid parameters for `since` and `until` can also be `None` or any `YMD` date format. Looking towards the future releases to resolve this to any date format.
+
+The `from a specific user` parameter makes sure that the results obtained for the given query are only from a specific user.
+
+`l.search('doctor who', '2015-01-10', '2015-01-21','0rb1t3r')`
 
 ##### Aggregations API
