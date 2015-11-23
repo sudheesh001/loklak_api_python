@@ -229,3 +229,10 @@ The `from a specific user` parameter makes sure that the results obtained for th
 `l.search('doctor who', '2015-01-10', '2015-01-21','0rb1t3r')`
 
 ##### Aggregations API
+
+##### GeoLocation API
+
+Loklak allows you to fetch required information about a country or city.
+
+eg. `l.geocode(['Barcelona'])`
+eg. `l.geocode(['place1','place2'])`
