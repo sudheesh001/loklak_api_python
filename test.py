@@ -1,3 +1,4 @@
+import unittest
 from loklak import Loklak
 from pprint import pprint
 
@@ -94,3 +95,7 @@ pprint(account1)
 
 account2 = l.account('name','update','type')
 pprint(account3)
+
+# Try call function without name
+account3 = l.account(action='update', data='type')
+
