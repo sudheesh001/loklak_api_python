@@ -16,8 +16,8 @@ class TestLoklak(unittest.TestCase):
         self.assertTrue(type(result['peers']) == list)
         self.assertTrue(len(result['peers']) >= 1)
         self.assertEqual(len(result['peers']), result['count'])
-        
-     def test_search(self):
+
+    def test_search(self):
         result = self.loklak.search('doctor who')
         self.assertTrue('error' in self.loklak.search())
         self.assertTrue('statuses' in result)
@@ -36,7 +36,6 @@ class TestLoklak(unittest.TestCase):
         self.assertTrue('user' in result['index_sizes'])
         self.assertTrue('followers' in result['index_sizes'])
         self.assertTrue('following' in result['index_sizes'])
-        
         self.assertTrue('client_info' in result)
         self.assertTrue('RemoteHost' in result['client_info'])
         self.assertTrue('IsLocalhost' in result['client_info'])
