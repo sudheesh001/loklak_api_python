@@ -49,6 +49,19 @@ class Loklak (object):
 			r = {}
 			return json.dumps(r)
 
+	def geocode(self, places=None):
+		geoAPI = 'geocode.json'
+		Url = self.baseUrl+geoAPI
+		params = {}
+		params['places'] = places
+		r = requests.get(Url, params=params)
+		if r.status_code == 200:
+			return r.json()
+		else :
+			r = {}
+			return json.dumps(r)
+
+
 	def peers(self):
 		peersAPI = 'peers.json'
 		Url = self.baseUrl+peersAPI
