@@ -134,7 +134,7 @@ class Loklak (object):
 		else:
 			r = {}
 			r['error'] = 'No Query string has been given to run a query for'
-			return r.dumps(r)
+			return json.dumps(r)
 
 	def aggregations(self, q=None, since=None, until=None, fields=None, limit=None):
 		aggregationsAPI = 'search.json'
@@ -173,7 +173,7 @@ class Loklak (object):
 		else:
 			r = {}
 			r['error'] = 'No Query string has been given to run an aggregation query for'
-			return r.dumps(r)
+			return json.dumps(r)
 
 	def account(self, name=None, action=None, data =None):
 		accountAPI = 'account.json'
