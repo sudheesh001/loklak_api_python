@@ -39,7 +39,6 @@ class TestLoklak(unittest.TestCase):
         self.assertTrue('client_info' in result)
         self.assertTrue('RemoteHost' in result['client_info'])
         self.assertTrue('IsLocalhost' in result['client_info'])
-        self.assertTrue('Accept-Language' in result['client_info'])
         self.assertTrue('If-Modified-Since' in result['client_info'])
         self.assertTrue('Host' in result['client_info'])
         self.assertTrue('Accept-Encoding' in result['client_info'])
