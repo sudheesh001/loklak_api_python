@@ -29,6 +29,15 @@ pprint(hello)
 peers = l.peers()
 pprint(peers)
 
+# Loklak Geocode API
+#Single place :
+geocode = l.geocode(['Barcelona'])
+pprint(geocode)
+
+# Multiple place names :
+geocode = l.geocode(['New York', 'Singapore'])
+pprint(geocode)
+
 #######################################
 # Users API
 
