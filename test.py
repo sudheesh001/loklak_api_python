@@ -5,11 +5,30 @@ from loklak import Loklak
 class TestLoklak(unittest.TestCase):
     def setUp(self):
         self.loklak = Loklak()
-    
+
     def test_hello(self):
         result = self.loklak.hello()
         self.assertEqual(result, {u'status': u'ok'})
-    
+
+    def test_geocode(self):
+        result = self.loklak.geocode()
+        self.assertEqual(result, '{}')
+
+        result = self.loklak.geocode(places=['Moscow'])
+        self.assertTrue('locations' in result)
+        self.assertTrue('Moscow' in result['locations'])
+        self.assertEqual(
+            'Russian Federation',
+            result['locations']['Moscow']['country']
+        )
+        self.assertEqual(
+            'Russian Federation',
+            result['locations']['Moscow']['country']
+        )
+        self.assertTrue(
+            type(result['locations']['Moscow']['place']) == list
+        )
+
     def test_peers(self):
         result = self.loklak.peers()
         self.assertTrue('peers' in result)
@@ -27,29 +46,29 @@ class TestLoklak(unittest.TestCase):
 
     def test_status(self):
         result = self.loklak.status()
-        self.assertTrue('index_sizes' in result)
-        self.assertTrue('messages' in result['index_sizes'])
-        self.assertTrue('mps' in result['index_sizes'])
-        self.assertTrue('users' in result['index_sizes'])
-        self.assertTrue('queries' in result['index_sizes'])
-        self.assertTrue('accounts' in result['index_sizes'])
-        self.assertTrue('user' in result['index_sizes'])
-        self.assertTrue('followers' in result['index_sizes'])
-        self.assertTrue('following' in result['index_sizes'])
-        self.assertTrue('client_info' in result)
-        self.assertTrue('RemoteHost' in result['client_info'])
-        self.assertTrue('IsLocalhost' in result['client_info'])
-        self.assertTrue('If-Modified-Since' in result['client_info'])
-        self.assertTrue('Host' in result['client_info'])
-        self.assertTrue('Accept-Encoding' in result['client_info'])
-        self.assertTrue('X-Forwarded-For' in result['client_info'])
-        self.assertTrue('X-Real-IP' in result['client_info'])
-        self.assertTrue('Via' in result['client_info'])
-        self.assertTrue('User-Agent' in result['client_info'])
-        self.assertTrue('Accept' in result['client_info'])
-        self.assertTrue('Connection' in result['client_info'])
-        self.assertTrue('Cache-Control' in result['client_info'])
 
+        self.assertTrue('index_sizes' in result)
+        result_properties = [
+            'messages', 'mps', 'users', 'queries',
+            'accounts', 'user', 'followers', 'following'
+        ]
+        for prop in result_properties:
+            self.assertTrue(
+                prop in result['index_sizes'],
+                msg='{} not found in index_sizes'.format(prop)
+            )
+
+        self.assertTrue('client_info' in result)
+        client_properties = [
+            'RemoteHost', 'IsLocalhost', 'Host',
+            'Accept-Encoding', 'X-Forwarded-For', 'X-Real-IP',
+            'User-Agent', 'Accept', 'Connection',
+        ]
+        for prop in client_properties:
+            self.assertTrue(
+                prop in result['client_info'],
+                msg='{} not found in client info'.format(prop)
+            )
 
     def test_user(self):
         result = self.loklak.user('dhruvRamani98')
