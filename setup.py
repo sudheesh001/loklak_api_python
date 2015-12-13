@@ -30,5 +30,5 @@ setup(name='python-loklak-api',
       ],
       zip_safe=False,
       download_url = 'https://github.com/sudheesh001/python-loklak-api',
-      entry_points={'console_scripts': ['python-loklak-api = loklak:main']},
+      scripts=['bin/loklak']
       )
