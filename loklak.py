@@ -14,7 +14,7 @@ import json
 
 
 class Loklak (object):
-	baseUrl = 'http://loklak.org/api/'
+	baseUrl = 'http://loklak.org/'
 	name = None
 	followers = None
 	following = None
@@ -31,7 +31,7 @@ class Loklak (object):
 	data = {}
 
 	def status(self):
-		statusAPI = 'status.json'
+		statusAPI = 'api/status.json'
 		Url = self.baseUrl+statusAPI
 		r = requests.get(Url)
 		if r.status_code == 200:
@@ -41,7 +41,7 @@ class Loklak (object):
 			return json.dumps(r)
 
 	def hello(self):
-		helloAPI = 'hello.json'
+		helloAPI = 'api/hello.json'
 		Url = self.baseUrl+helloAPI
 		r = requests.get(Url)
 		if r.status_code == 200:
@@ -51,7 +51,7 @@ class Loklak (object):
 			return json.dumps(r)
 
 	def geocode(self, places=None):
-		geoAPI = 'geocode.json'
+		geoAPI = 'api/geocode.json'
 		Url = self.baseUrl+geoAPI
 		params = {}
 		params['places'] = places
@@ -62,9 +62,17 @@ class Loklak (object):
 			r = {}
 			return json.dumps(r)
 
+        def map(self, latitude, longitude, width=500, height=500, zoom=8, text=""):
+            mapAPI = 'vis/map.png'
+            params = {'text': text, 'mlat': latitude, 'mlon': longitude, 'width': width, 'height': height, 'zoom': zoom}
+            r = requests.get(self.baseUrl + mapAPI, params=params, stream=True)
+            if r.status_code == 200:
+                return r.raw.read()
+            else:
+                return ''
 
 	def peers(self):
-		peersAPI = 'peers.json'
+		peersAPI = 'api/peers.json'
 		Url = self.baseUrl+peersAPI
 		r = requests.get(Url)
 		if r.status_code == 200:
@@ -74,7 +82,7 @@ class Loklak (object):
 			return json.dumps(r)
 
 	def user(self, name = None, followers=None, following=None):
-		userAPI = 'user.json'
+		userAPI = 'api/user.json'
 		Url = self.baseUrl+userAPI
 		self.name = name
 		self.followers = followers
@@ -110,7 +118,7 @@ class Loklak (object):
 			return json.dumps(r)
 
 	def search(self, q=None, since=None, until=None, fromUser=None):
-		searchAPI = 'search.json'
+		searchAPI = 'api/search.json'
 		Url = self.baseUrl+searchAPI
 		self.q = q
 		self.since = since
@@ -138,7 +146,7 @@ class Loklak (object):
 			return json.dumps(r)
 
 	def aggregations(self, q=None, since=None, until=None, fields=None, limit=None):
-		aggregationsAPI = 'search.json'
+		aggregationsAPI = 'api/search.json'
 		Url = self.baseUrl+aggregationsAPI
 		self.q = q
 		self.since = since

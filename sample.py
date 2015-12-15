@@ -1,4 +1,6 @@
 import unittest
+import shutil
+import tempfile
 from loklak import Loklak
 from pprint import pprint
 
@@ -37,6 +39,11 @@ pprint(geocode)
 # Multiple place names :
 geocode = l.geocode(['New York', 'Singapore'])
 pprint(geocode)
+
+# Loklak Map API
+png_data = l.map(17.582729, 79.118320, 512, 512, 12, 'Hello')
+path = tempfile.mkstemp(suffix=".png")[1]
+open(path, 'wb').write(png_data)
 
 #######################################
 # Users API
