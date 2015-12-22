@@ -1,6 +1,7 @@
 ## Python Loklak API
 [![PyPI version](https://badge.fury.io/py/python-loklak-api.svg)](https://badge.fury.io/py/python-loklak-api) 
 [![Build Status](https://travis-ci.org/loklak/python-loklak-api.svg?branch=master)](https://travis-ci.org/loklak/python-loklak-api)
+[![Code Health](https://landscape.io/github/loklak/python-loklak-api/master/landscape.svg?style=flat)](https://landscape.io/github/loklak/python-loklak-api/master)
 --------------------------------------------
 
 If you want to create an alternative twitter search portal, the only way would be to use the official twitter API to retrieve Tweets. But that interface needs an OAuth account and it makes your search portal completely dependent on Twitters goodwill. The alternative is, to scrape the tweets from the twitter html search result pages, but Twitter may still lock you out on your IP address. To circumvent this, you need many clients accessing twitter to scrape search results. This makes it neccessary to create a distributed peer-to-peer network of twitter scrapers which can all organize, store and index tweets. This solution was created with loklak.
