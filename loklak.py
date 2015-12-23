@@ -4,13 +4,8 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
-import copy
-import math
-import sys
-import time
-from collections import namedtuple
-import requests
 import json
+import requests
 
 
 class Loklak(object):
@@ -66,17 +61,17 @@ class Loklak(object):
             return_to_user = {}
             return json.dumps(return_to_user)
 
-        def map(self, latitude, longitude, width=500, height=500, zoom=8, text=""):
-            """Returns a map of size 500x500"""
-            map_application = 'vis/map.png'
-            params = {'text': text, 'mlat': latitude, 'mlon': longitude,\
-             'width': width, 'height': height, 'zoom': zoom}
-            return_to_user = requests.get(self.baseUrl + map_application, \
-            params=params, stream=True)
-            if return_to_user.status_code == 200:
-                return return_to_user.raw.read()
-            else:
-                return ''
+    def get_map(self, latitude, longitude, width=500, height=500, zoom=8, text=""):
+        """Returns a map of size 500x500"""
+        map_application = 'vis/map.png'
+        params = {'text': text, 'mlat': latitude, 'mlon': longitude,\
+                  'width': width, 'height': height, 'zoom': zoom}
+        return_to_user = requests.get(self.baseUrl + map_application, \
+                                      params=params, stream=True)
+        if return_to_user.status_code == 200:
+            return return_to_user.raw.read()
+        else:
+            return ''
 
     def peers(self):
         """Gives the peers of a user"""
@@ -118,8 +113,8 @@ class Loklak(object):
 
     def settings(self):
         """Gives the settings of the application"""
-        settings_application = 'settings.json'
-        url_to_give = 'http://localhost:9000/api/'+settings_application
+        settings_application = 'api/settings.json'
+        url_to_give = self.baseUrl + settings_application
         return_to_user = requests.get(url_to_give)
         if return_to_user.status_code == 200:
             return return_to_user.json()
@@ -181,7 +176,7 @@ class Loklak(object):
                 params['fields'] = field_string
             if limit:
                 params['limit'] = self.limit
-            if limit == None:
+            if limit is None:
                 limit = 6
                 params['limit'] = self.limit
             params['count'] = 0
