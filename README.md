@@ -1,5 +1,5 @@
 ## Python Loklak API
-[![PyPI version](https://badge.fury.io/py/python-loklak-api.svg)](https://badge.fury.io/py/python-loklak-api) 
+[![PyPI version](https://badge.fury.io/py/python-loklak-api.svg)](https://badge.fury.io/py/python-loklak-api)
 [![Build Status](https://travis-ci.org/loklak/python-loklak-api.svg?branch=master)](https://travis-ci.org/loklak/python-loklak-api)
 [![Code Health](https://landscape.io/github/loklak/python-loklak-api/master/landscape.svg?style=flat)](https://landscape.io/github/loklak/python-loklak-api/master)
 --------------------------------------------
@@ -73,7 +73,7 @@ Using the object created above, `l.status()` returns a json of the status as fol
 
 ##### Settings of the loklak server (strictly only for localhost clients)
 
-Using the object created above `l.settings()` returns a json of the settings being used by the loklak server
+Using the class method `settings()` to returns a json of the settings being used by the loklak server
 
 ##### Hello test - Check if the server is responding properly and is online
 

@@ -3,14 +3,18 @@ from loklak import Loklak
 
 
 class TestLoklak(unittest.TestCase):
+    """"test class"""
     def setUp(self):
+        """test proper setup"""
         self.loklak = Loklak()
 
     def test_hello(self):
+        """test hello instance"""
         result = self.loklak.hello()
         self.assertEqual(result, {u'status': u'ok'})
 
     def test_geocode(self):
+        """test geological features"""
         result = self.loklak.geocode()
         self.assertEqual(result, '{}')
 
@@ -26,25 +30,28 @@ class TestLoklak(unittest.TestCase):
             result['locations']['Moscow']['country']
         )
         self.assertTrue(
-            type(result['locations']['Moscow']['place']) == list
+            isinstance(result['locations']['Moscow']['place'], list)
         )
 
     def test_peers(self):
+        """test finding peers"""
         result = self.loklak.peers()
         self.assertTrue('peers' in result)
-        self.assertTrue(type(result['peers']) == list)
+        self.assertTrue(isinstance(result['peers'], list))
         self.assertTrue(len(result['peers']) >= 1)
         self.assertEqual(len(result['peers']), result['count'])
 
     def test_search(self):
+        """test search result"""
         result = self.loklak.search('doctor who')
         self.assertTrue('error' in self.loklak.search())
         self.assertTrue('statuses' in result)
-        self.assertTrue(type(result['statuses']) == list)
+        self.assertTrue(isinstance(result['statuses'], list))
         self.assertTrue(len(result['statuses']) >= 1)
         self.assertEqual(len(result['statuses']), int(result['search_metadata']['count']))
 
     def test_status(self):
+        """test status"""
         result = self.loklak.status()
 
         self.assertTrue('index_sizes' in result)
@@ -71,6 +78,7 @@ class TestLoklak(unittest.TestCase):
             )
 
     def test_user(self):
+        """test user"""
         result = self.loklak.user('dhruvRamani98')
         self.assertTrue('error' in self.loklak.user())
         self.assertTrue('user' in result)

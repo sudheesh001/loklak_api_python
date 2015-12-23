@@ -4,13 +4,8 @@
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
-import copy
-import math
-import sys
-import time
-from collections import namedtuple
-import requests
 import json
+import requests
 
 
 class Loklak(object):
@@ -30,7 +25,7 @@ class Loklak(object):
     limit = None
     action = None
     data = {}
-
+    
     def status(self):
         """Returns the status of the server"""
         status_application = 'api/status.json'
@@ -66,17 +61,18 @@ class Loklak(object):
             return_to_user = {}
             return json.dumps(return_to_user)
 
-        def map(self, latitude, longitude, width=500, height=500, zoom=8, text=""):
-            """Returns a map of size 500x500"""
-            map_application = 'vis/map.png'
-            params = {'text': text, 'mlat': latitude, 'mlon': longitude,\
-             'width': width, 'height': height, 'zoom': zoom}
-            return_to_user = requests.get(self.baseUrl + map_application, \
-            params=params, stream=True)
-            if return_to_user.status_code == 200:
-                return return_to_user.raw.read()
-            else:
-                return ''
+    def get_map(self, latitude, longitude, width=500, height=500,
+                zoom=8, text=""):
+        """Returns a map of size 500x500"""
+        map_application = 'vis/map.png'
+        params = {'text': text, 'mlat': latitude, 'mlon': longitude,
+                  'width': width, 'height': height, 'zoom': zoom}
+        return_to_user = requests.get(self.baseUrl + map_application,
+                                      params=params, stream=True)
+        if return_to_user.status_code == 200:
+            return return_to_user.raw.read()
+        else:
+            return ''
 
     def peers(self):
         """Gives the peers of a user"""
@@ -113,13 +109,14 @@ class Loklak(object):
                 return json.dumps(return_to_user)
         else:
             return_to_user = {}
-            return_to_user['error'] = 'No user name given to query. Please check and try again'
+            return_to_user['error'] = ('No user name given to query. Please '
+                                       'check and try again')
             return json.dumps(return_to_user)
 
     def settings(self):
         """Gives the settings of the application"""
-        settings_application = 'settings.json'
-        url_to_give = 'http://localhost:9000/api/'+settings_application
+        settings_application = 'api/settings.json'
+        url_to_give = self.baseUrl + settings_application
         return_to_user = requests.get(url_to_give)
         if return_to_user.status_code == 200:
             return return_to_user.json()
@@ -151,21 +148,24 @@ class Loklak(object):
                 return return_to_user.json()
             else:
                 return_to_user = {}
-                return_to_user['error'] = 'Something went wrong, Looks like the server is down.'
+                return_to_user['error'] = ('Something went wrong, Looks like'
+                                           ' the server is down.')
                 return json.dumps(return_to_user)
         else:
             return_to_user = {}
-            return_to_user['error'] = 'No Query string has been given to run a query for'
+            return_to_user['error'] = ('No Query string has been'
+                                       ' given to run a query for')
             return json.dumps(return_to_user)
 
-    def aggregations(self, query=None, since=None, until=None, fields=None, limit=None):
+    def aggregations(self, query=None, since=None, until=None,
+                     fields=None, limit=None):
         """Gives the aggregations of the application"""
         aggregations_application = 'api/search.json'
         url_to_give = self.baseUrl+aggregations_application
         self.query = query
         self.since = since
         self.until = until
-        self.fields = fields # Array seperated values to be passed
+        self.fields = fields
         self.limit = limit
         if query:
             params = {}
@@ -177,11 +177,11 @@ class Loklak(object):
             if fields:
                 field_string = ''
                 for i in self.fields:
-                    field_string += i +','
+                    field_string += i + ','
                 params['fields'] = field_string
             if limit:
                 params['limit'] = self.limit
-            if limit == None:
+            if limit is None:
                 limit = 6
                 params['limit'] = self.limit
             params['count'] = 0
@@ -191,7 +191,8 @@ class Loklak(object):
                 return return_to_user
             else:
                 return_to_user = {}
-                return_to_user['error'] = 'Something went wrong, Looks like the server is down.'
+                return_to_user['error'] = ('Something went wrong, '
+                                           'Looks like the server is down.')
                 return json.dumps(return_to_user)
         else:
             return_to_user = {}
@@ -208,32 +209,38 @@ class Loklak(object):
         self.action = action
         # Simple GET Query
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0',
+            'User-Agent': ('Mozilla/5.0 (Android 4.4; Mobile; rv:41.0)'
+                           ' Gecko/41.0 Firefox/41.0'),
             'From': 'info@loklak.org'
         }
         if name:
             params = {}
             params['screen_name'] = self.name
-            return_to_user = requests.get(url_to_give, params=params, headers=headers)
+            return_to_user = requests.get(url_to_give, params=params,
+                                          headers=headers)
             if return_to_user.status_code == 200:
                 return return_to_user.json()
             else:
                 return_to_user = {}
-                return_to_user['error'] = 'Something went wrong, Looks query is wrong.'
+                return_to_user['error'] = ('Something went wrong, '
+                                           'Looks query is wrong.')
                 return json.dumps(return_to_user)
         # if action = update and data is provided, then make request
         elif self.action == 'update' and data:
             params = {}
             params['action'] = self.action
             params['data'] = self.data
-            return_to_user = requests.post(url_to_give, params=params, headers=headers)
+            return_to_user = requests.post(url_to_give,
+                                           params=params, headers=headers)
             if return_to_user.status_code == 200:
                 return return_to_user.json()
             else:
                 return_to_user = {}
-                return_to_user['error'] = 'Something went wrong, Looks query is wrong.'
+                return_to_user['error'] = ('Something went wrong,'
+                                           ' Looks query is wrong.')
                 return json.dumps(return_to_user)
         else:
             return_to_user = {}
-            return_to_user['error'] = 'No Query string has been given to run an query for account'
+            return_to_user['error'] = ('No Query string has been given'
+                                       ' to run an query for account')
             return json.dumps(return_to_user)
