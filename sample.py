@@ -1,5 +1,3 @@
-import unittest
-import shutil
 import tempfile
 from loklak import Loklak
 from pprint import pprint
@@ -40,8 +38,8 @@ pprint(geocode)
 geocode = l.geocode(['New York', 'Singapore'])
 pprint(geocode)
 
-# Loklak Map API
-png_data = l.map(17.582729, 79.118320, 512, 512, 12, 'Hello')
+# Loklak Geographic Map API
+png_data = l.get_map(17.582729, 79.118320, 512, 512, 12, 'Hello')
 path = tempfile.mkstemp(suffix=".png")[1]
 open(path, 'wb').write(png_data)
 
@@ -110,8 +108,7 @@ account1 = l.account('name')
 pprint(account1)
 
 account2 = l.account('name','update','type')
-pprint(account3)
+pprint(account2)
 
 # Try call function without name
 account3 = l.account(action='update', data='type')
-

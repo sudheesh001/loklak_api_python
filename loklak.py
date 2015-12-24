@@ -25,7 +25,7 @@ class Loklak(object):
     limit = None
     action = None
     data = {}
-
+    
     def status(self):
         """Returns the status of the server"""
         status_application = 'api/status.json'
