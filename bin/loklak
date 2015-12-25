@@ -16,7 +16,7 @@ parser.add_argument('-p', '--peers', action='store_true', help='Loklak API for p
 parser.add_argument('-pg', '--pushgeojson', action='store_true', help='Public API to push geojson objects to the loklak server.')
 parser.add_argument('-u', '--user', help='User API to show twitter user information.')
 parser.add_argument('-m', '--map', help='Map Visualization render using Loklak service.')
-parser.add_argument('-md', '--markdown', action='store_true', help='Markdown conversion API to render markdown as image using Loklak.')
+parser.add_argument('-md', '--markdown', help='Markdown conversion API to render markdown as image using Loklak.')
 args = parser.parse_args()
 
 loklak = loklak.Loklak()
@@ -45,6 +45,8 @@ elif args.map:
     with open(os.path.join(os.getcwd(), 'map.png'), 'wb') as f:
         f.write(data)
 elif args.markdown:
-    pass
+    data = loklak.get_markdown(args.markdown)
+    with open(os.path.join(os.getcwd(), 'markdown.png'), 'wb') as f:
+        f.write(data)
 else:
     print('Choose API method.')
