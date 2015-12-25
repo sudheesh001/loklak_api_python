@@ -3,6 +3,7 @@
 import argparse
 import loklak
 from pprint import pprint
+import os
 
 parser = argparse.ArgumentParser(description="Python wrapper around the loklak API.")
 parser.add_argument('-s', '--search', type=str, help='Search API Wrapper which helps to query loklak for JSON results.')
@@ -14,7 +15,7 @@ parser.add_argument('-g', '--geocode', help='Geocode API for geolocation based i
 parser.add_argument('-p', '--peers', action='store_true', help='Loklak API for peers connected on the distributed network.')
 parser.add_argument('-pg', '--pushgeojson', action='store_true', help='Public API to push geojson objects to the loklak server.')
 parser.add_argument('-u', '--user', help='User API to show twitter user information.')
-parser.add_argument('-m', '--map', action='store_true', help='Map Visualization render using Loklak service.')
+parser.add_argument('-m', '--map', help='Map Visualization render using Loklak service.')
 parser.add_argument('-md', '--markdown', action='store_true', help='Markdown conversion API to render markdown as image using Loklak.')
 args = parser.parse_args()
 
@@ -39,7 +40,10 @@ elif args.user:
     params = args.user.split()
     pprint(loklak.search(*params))
 elif args.map:
-    pass
+    data = loklak.get_map(args.map.split(',')[0],
+                          args.map.split(',')[1].strip())
+    with open(os.path.join(os.getcwd(), 'map.png'), 'wb') as f:
+        f.write(data)
 elif args.markdown:
     pass
 else:
