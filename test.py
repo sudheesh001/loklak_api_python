@@ -1,10 +1,17 @@
 import unittest
 from loklak import Loklak
+import os
 
 
 class TestLoklak(unittest.TestCase):
     def setUp(self):
         self.loklak = Loklak()
+
+    def tearDown(self):
+        try:
+            os.remove(self.map_file)
+        except OSError as error:
+            print(error)
 
     def test_hello(self):
         result = self.loklak.hello()
@@ -77,6 +84,15 @@ class TestLoklak(unittest.TestCase):
         self.assertTrue('name' in result['user'])
         self.assertTrue('screen_name' in result['user'])
 
+    def test_get_map(self):
+        self.map_file = os.path.join(os.getcwd(), 'markdown.png')
+        data = self.loklak.get_map(17.582729, 79.118320)
+        with open(self.map_file, 'wb') as f:
+            f.write(data)
+        with open(self.map_file, 'rb') as f:
+            file_contents = f.read()
+        self.assertTrue(os.path.exists(self.map_file))
+        self.assertEqual(data, file_contents)
 
 if __name__ == '__main__':
     unittest.main()
