@@ -95,12 +95,22 @@ class TestLoklak(unittest.TestCase):
     def test_get_map(self):
         self.map_file = os.path.join(os.getcwd(), 'markdown.png')
         data = self.loklak.get_map(17.582729, 79.118320)
+        self.assertTrue(data[:8] == '\211PNG\r\n\032\n'and (data[12:16] == 'IHDR'))
         with open(self.map_file, 'wb') as f:
             f.write(data)
         with open(self.map_file, 'rb') as f:
             file_contents = f.read()
         self.assertTrue(os.path.exists(self.map_file))
         self.assertEqual(data, file_contents)
+
+    def test_aggregations(self):
+        """test aggregations"""
+        result = self.loklak.aggregations('sudheesh001','2015-01-10','2015-10-21',['mentions','hashtags'],10)
+        data = result.json()
+        self.assertEqual(result.status_code,200)
+        self.assertTrue('aggregations' in data)
+        self.assertTrue('hashtags' in data['aggregations'])
+        self.assertTrue('mentions' in data['aggregations'])
 
 if __name__ == '__main__':
     unittest.main()
