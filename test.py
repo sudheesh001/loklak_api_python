@@ -9,12 +9,6 @@ class TestLoklak(unittest.TestCase):
         """test proper setup"""
         self.loklak = Loklak()
 
-    def tearDown(self):
-        try:
-            os.remove(self.map_file)
-        except OSError as error:
-            print(error)
-
     def test_hello(self):
         """test hello instance"""
         result = self.loklak.hello()
@@ -102,7 +96,10 @@ class TestLoklak(unittest.TestCase):
             file_contents = f.read()
         self.assertTrue(os.path.exists(self.map_file))
         self.assertEqual(data, file_contents)
-
+        try:
+            os.remove(self.map_file)
+        except OSError as error:
+            print(error)
     def test_aggregations(self):
         """test aggregations"""
         result = self.loklak.aggregations('sudheesh001','2015-01-10','2015-10-21',['mentions','hashtags'],10)
@@ -111,6 +108,8 @@ class TestLoklak(unittest.TestCase):
         self.assertTrue('aggregations' in data)
         self.assertTrue('hashtags' in data['aggregations'])
         self.assertTrue('mentions' in data['aggregations'])
+
+
 
 if __name__ == '__main__':
     unittest.main()
