@@ -103,6 +103,17 @@ pprint(search5)
 search6 = l.search('sudheesh001', '2015-01-10', '2015-01-21','sudheesh001')
 pprint(search6)
 
+###loklak Suggestion API
+suggestion1 = l.suggest()
+pprint(suggest1)
+
+suggestion2 = l.suggest(count=20, order='desc')
+pprint(suggestion2)
+
+
+suggestion3 = l.suggest(count=10, order='asc')
+pprint(suggestion3)
+
 ###  account
 account1 = l.account('name')
 pprint(account1)
