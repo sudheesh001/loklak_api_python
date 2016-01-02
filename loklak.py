@@ -157,6 +157,30 @@ class Loklak(object):
                                        ' given to run a query for')
             return json.dumps(return_to_user)
 
+    def suggest(self, query=None, count=None, order=None, orderby=None,since=None, until=None):
+        suggest_application = 'api/suggest.json'
+        url_to_give = self.baseUrl+suggest_application
+        params  = {}
+        if query:
+            params['query'] = query
+        if count:
+            params['count'] = count
+        if order:
+            params['order'] = order
+        if since:
+            params['since'] = since
+        if until:
+            params['until'] = until
+        print(params)
+        return_to_user = requests.get(url_to_give, params=params)
+        print(return_to_user.url)
+        if return_to_user.status_code == 200:
+            return return_to_user.json()
+        else :
+            return_to_user = {}
+            return_to_user['error'] = ('Something went wrong, looks like the server is down.')
+            return json.dumps(return_to_user)
+
     def aggregations(self, query=None, since=None, until=None,
                      fields=None, limit=None):
         """Gives the aggregations of the application"""
