@@ -120,7 +120,7 @@ To update the user details within the server, package a `json` object with the f
 
 Public search API for the scraped tweets from Twitter.
 
-Query structure: `search('querycontent','since date','until date', 'from a specific user')`
+Query structure: `search('querycontent','since date','until date', 'from a specific user', '# of tweets')`
 
 eg. l.search('doctor who')
 
@@ -230,6 +230,10 @@ Valid parameters for `since` and `until` can also be `None` or any `YMD` date fo
 The `from a specific user` parameter makes sure that the results obtained for the given query are only from a specific user.
 
 `l.search('doctor who', '2015-01-10', '2015-01-21','0rb1t3r')`
+
+The `# of tweets` parameter is how many tweets will be returned.
+
+`l.search('avengers', None, None, 'Iron_Man', 3)`
 
 ##### Aggregations API
 
