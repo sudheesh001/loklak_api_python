@@ -103,6 +103,9 @@ pprint(search5)
 search6 = l.search('sudheesh001', '2015-01-10', '2015-01-21','sudheesh001')
 pprint(search6)
 
+search7 = l.search('gunvirranu', None, None, None, 6)
+pprint(search7)
+
 ###loklak Suggestion API
 suggestion1 = l.suggest()
 pprint(suggest1)

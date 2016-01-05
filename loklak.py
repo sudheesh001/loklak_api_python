@@ -126,7 +126,7 @@ class Loklak(object):
             only localhost clients are granted.'
             return json.dumps(return_to_user)
 
-    def search(self, query=None, since=None, until=None, from_user=None):
+    def search(self, query=None, since=None, until=None, from_user=None, count=None):
         """Handles the searching"""
         search_application = 'api/search.json'
         url_to_give = self.baseUrl+search_application
@@ -134,15 +134,18 @@ class Loklak(object):
         self.since = since
         self.until = until
         self.from_user = from_user
+        self.count = count
         if query:
             params = {}
             params['query'] = self.query
             if since:
-                params['query'] = params['query']+' since:'+self.since
+                params['query'] = params['query'] + ' since:'+self.since
             if until:
-                params['query'] = params['query']+' until:'+self.until
+                params['query'] = params['query'] + ' until:'+self.until
             if from_user:
-                params['query'] = params['query']+' from:'+self.from_user
+                params['query'] = params['query'] + ' from:'+self.from_user
+            if count:
+                params['count'] = self.count
             return_to_user = requests.get(url_to_give, params=params)
             if return_to_user.status_code == 200:
                 return return_to_user.json()
