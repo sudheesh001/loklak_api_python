@@ -37,6 +37,13 @@ To create a loklak object you can assign the `Loklak()` object to a variable.
 `variable = Loklak()`
 
 eg. `l = Loklak()`
+This creates an objects whose backend loklak server is `http://loklak.org/`
+
+If you want to set this API to use your own server, you can now define it by doing
+`l = Loklak('http://192.168.192.5:9000/')` for example or pass a URL to it as
+`l = Loklak('http://loklak-super-cluster.mybluemix.net/')
+
+Note the trailing `/` is important and so is `http://`
 
 ### API Documentation
 
