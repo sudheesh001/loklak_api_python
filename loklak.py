@@ -5,6 +5,7 @@ from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
 import json
+import re
 import requests
 
 
@@ -25,6 +26,22 @@ class Loklak(object):
     limit = None
     action = None
     data = {}
+
+    def __init__(self, baseUrl='http://loklak.org/'):
+        baseUrl = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', baseUrl)
+        try:
+            if baseUrl[0]:
+                if baseUrl[0] != 'http://loklak.org/':
+                    url_test = self.hello()
+                    if url_test['status'] == 'ok':
+                        self.baseUrl = baseUrl[0]
+                else:
+                    self.baseUrl = baseUrl[0]
+        except IndexError:
+            pass
+
+    def getBaseUrl(self):
+        return self.baseUrl
 
     def status(self):
         """Returns the status of the server"""
