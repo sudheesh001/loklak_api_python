@@ -74,6 +74,19 @@ class Loklak(object):
         else:
             return ''
 
+    def get_markdown(self, text, color_text="000000", color_bg="ffffff",
+                     padding="10", uppercase="true"):
+        """Returns a map of size 500x500"""
+        map_application = 'vis/markdown.png'
+        params = {'text': text, 'color_text': color_text, 'color_background': color_bg,
+                  'padding': padding, 'uppercase': uppercase}
+        return_to_user = requests.get(self.baseUrl + map_application,
+                                      params=params, stream=True)
+        if return_to_user.status_code == 200:
+            return return_to_user.raw.read()
+        else:
+            return ''
+
     def peers(self):
         """Gives the peers of a user"""
         peers_application = 'api/peers.json'
