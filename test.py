@@ -14,15 +14,15 @@ class TestLoklak(unittest.TestCase):
         """test status"""
         result = self.loklak.status()
 
-        self.assertTrue('index_sizes' in result)
+        self.assertTrue('index' in result)
         result_properties = [
             'messages', 'mps', 'users', 'queries',
             'accounts', 'user', 'followers', 'following'
         ]
         for prop in result_properties:
             self.assertTrue(
-                prop in result['index_sizes'],
-                msg='{} not found in index_sizes'.format(prop)
+                prop in result['index'],
+                msg='{} not found in index'.format(prop)
             )
 
     def test_hello(self):
