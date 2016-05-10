@@ -215,7 +215,7 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def aggregations(self, query=None, since=None, until=None,
-                     fields=None, limit=None):
+                     fields=None, limit=6, count=0):
         """Gives the aggregations of the application"""
         aggregations_application = 'api/search.json'
         url_to_give = self.baseUrl+aggregations_application
@@ -224,6 +224,7 @@ class Loklak(object):
         self.until = until
         self.fields = fields
         self.limit = limit
+        self.count = count
         if query:
             params = {}
             params['query'] = self.query
@@ -232,16 +233,12 @@ class Loklak(object):
             if until:
                 params['query'] = params['query']+' until:'+self.until
             if fields:
-                field_string = ''
-                for i in self.fields:
-                    field_string += i + ','
-                params['fields'] = field_string
-            if limit:
-                params['limit'] = self.limit
-            if limit is None:
-                limit = 6
-                params['limit'] = self.limit
-            params['count'] = 0
+                if isinstance(fields, list):
+                    params['fields'] = ','.join(self.fields)
+                else:
+                    params['fields'] = self.fields
+
+            params['count'] = self.count
             params['source'] = 'cache'
             return_to_user = requests.get(url_to_give, params=params)
             if return_to_user.status_code == 200:
