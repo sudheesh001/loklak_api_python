@@ -2,13 +2,15 @@ from __future__ import print_function
 import unittest
 from loklak import Loklak
 import os
-
+import sys
 
 class TestLoklak(unittest.TestCase):
     """"test class"""
+    baseUrl = 'http://loklak.org/'
+
     def setUp(self):
         """test proper setup"""
-        self.loklak = Loklak()
+        self.loklak = Loklak(self.baseUrl)
 
     def test_status(self):
         """test status"""
@@ -105,4 +107,6 @@ class TestLoklak(unittest.TestCase):
         self.assertTrue('mentions' in data['aggregations'])
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        TestLoklak.baseUrl = sys.argv.pop()
     unittest.main()
