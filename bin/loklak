@@ -4,50 +4,94 @@ import argparse
 from loklak import Loklak
 from pprint import pprint
 import os
+def main():
+    parser = argparse.ArgumentParser()
 
-parser = argparse.ArgumentParser(description="Python wrapper around the loklak API.")
-parser.add_argument('-s', '--search', nargs='+', help='Search API Wrapper which helps to query loklak for JSON results.')
-parser.add_argument('-t', '--status', action='store_true', help='Status API Wrapper for the loklak status check.')
-parser.add_argument('-st', '--suggest', nargs='+', help='Suggestions API Wrapper , Works better with local loklak instance.')
-parser.add_argument('-c', '--crawler', action='store_true', help='Crawler API Wrapper on Loklak to crawl for tweets for a particular crawl depth.')
-parser.add_argument('-hl', '--hello', action='store_true', help='Loklak status check API.')
-parser.add_argument('-g', '--geocode', help='Geocode API for geolocation based information.')
-parser.add_argument('-p', '--peers', action='store_true', help='Loklak API for peers connected on the distributed network.')
-parser.add_argument('-pg', '--pushgeojson', action='store_true', help='Public API to push geojson objects to the loklak server.')
-parser.add_argument('-u', '--user', help='User API to show twitter user information.')
-parser.add_argument('-m', '--map', help='Map Visualization render using Loklak service.')
-parser.add_argument('-md', '--markdown', help='Markdown conversion API to render markdown as image using Loklak.')
-args = parser.parse_args()
+    subparsers = parser.add_subparsers(help='Python wrapper around the loklak API', dest='command')
 
-loklak = Loklak()
-if args.search:
-    pprint(loklak.search(args.search))
-elif args.status:
-    pprint(loklak.status())
-elif args.suggest:
-    print(args.suggest)
-    pprint(loklak.suggest(args.suggest))
-elif args.crawler:
-    pass
-elif args.hello:
-    pprint(loklak.hello())
-elif args.geocode:
-    pprint(loklak.geocode(args.geocode.split(', ')))
-elif args.peers:
-    pprint(loklak.peers())
-elif args.pushgeojson:
-    pass
-elif args.user:
-    params = args.user.split()
-    pprint(loklak.search(*params))
-elif args.map:
-    data = loklak.get_map(args.map.split(',')[0],
-                          args.map.split(',')[1].strip())
-    with open(os.path.join(os.getcwd(), 'map.png'), 'wb') as f:
-        f.write(data)
-elif args.markdown:
-    data = loklak.get_markdown(args.markdown)
-    with open(os.path.join(os.getcwd(), 'markdown.png'), 'wb') as f:
-        f.write(data)
-else:
-    print('Choose API method.')
+    search_parser = subparsers.add_parser('search', help='Search API Wrapper which helps to query loklak for JSON results.')
+    search_parser.add_argument('query', action='store', help='Query term')
+    search_parser.add_argument('--since', action='store', help='Only messages after the date (including the date) <date>=yyyy-MM-dd or yyyy-MM-dd_HH:mm')
+    search_parser.add_argument('--until', action='store', help='Only messages before the date (excluding the date) <date>=yyyy-MM-dd or yyyy-MM-dd_HH:mm')
+    search_parser.add_argument('--from_user', action='store', help='Only messages published by the user')
+    search_parser.add_argument('--count', action='count', help='Result count')
+
+    status_parser = subparsers.add_parser('status', help='Status API Wrapper for the loklak status check.')
+    status_parser.add_argument('--get_status', action='store_true', default="true", help='Get complete status')
+
+    suggest_parser = subparsers.add_parser('suggest', help='Suggestions API Wrapper , Works better with local loklak instance.')
+    suggest_parser.add_argument('query', action='store', help='Query term')
+    suggest_parser.add_argument('--since', action='store', help='Only messages after the date (including the date) <date>=yyyy-MM-dd or yyyy-MM-dd_HH:mm')
+    suggest_parser.add_argument('--until', action='store', help='Only messages before the date (excluding the date) <date>=yyyy-MM-dd or yyyy-MM-dd_HH:mm')
+    suggest_parser.add_argument('--order', choices=['asc', 'desc'], default='asc', help='Result count')
+    suggest_parser.add_argument('--orderby', choices=['retrieval_next', 'query_count'], help='A field name of the query index schema')
+    suggest_parser.add_argument('--count', action='count', help='Result count')
+
+    crawler_parser = subparsers.add_parser('crawler', help='Crawler API Wrapper on Loklak to crawl for tweets for a particular crawl depth.')
+    crawler_parser.add_argument('--crawl', action='store_true', default="true", help='Get status of loklak API')
+
+    hello_parser = subparsers.add_parser('hello', help='Loklak status check API')
+    hello_parser.add_argument('--get_hello_status', action='store_true', default="true", help='Get Loklak API health status')
+
+    geocode_parser = subparsers.add_parser('geocode', help='Geocode API for geolocation based information.')
+    geocode_parser.add_argument('--places', action='store', help='<comma-separated strings>, a list of place names')
+
+    peer_parser = subparsers.add_parser('peers', help='Loklak API for peers connected on the distributed network.')
+    peer_parser.add_argument('--get_peers', action='store_true', default="true", help='Get Loklak peers connected')
+
+    hello_parser = subparsers.add_parser('pushgeojson', help='Public API to push geojson objects to the loklak server')
+    hello_parser.add_argument('--get_pushgeojson', action='store_true', default="true", help='Push objects')
+
+    user_parser = subparsers.add_parser('user', help='User API to show twitter user information.')
+    user_parser.add_argument('screen_name', action='store', help='Twitter screen name of the user')
+    user_parser.add_argument('--followers', action='store', help='Followers of the user')
+    user_parser.add_argument('--following', action='store', help='Accounts the user is following')
+
+    map_parser = subparsers.add_parser('map', help='Map Visualization render using Loklak service.')
+    map_parser.add_argument('latitude', action='store', help='Latitude value')
+    map_parser.add_argument('longitude', action='store', help='Longitude value')
+    map_parser.add_argument('--width', action='store', default='500', help='Width')
+    map_parser.add_argument('--height', action='store', default='500', help='Height')
+    map_parser.add_argument('--zoom', action='count', default='8', help='Zoom value')
+    map_parser.add_argument('text', action='store', help='Value of text like Hello')
+
+    markdown_parser = subparsers.add_parser('markdown', help='Markdown conversion API to render markdown as image using Loklak.')
+    markdown_parser.add_argument('text', action='store', help='Text to be printed, markdown possible')
+    markdown_parser.add_argument('--color_text', action='store', default="000000", help='6-character hex code for the color')
+    markdown_parser.add_argument('--color_background', action='store', default="ffffff", help='6-character hex code for the color')
+    markdown_parser.add_argument('--padding', action='count', default="10", help='Space around text')
+    markdown_parser.add_argument('--uppercase', action='store_true', default="true", help='If true the text is printed UPPERCASE')
+
+    args = parser.parse_args()
+    loklak = Loklak()
+    if args.command == "search":
+        pprint(loklak.search(args.query, args.since, args.until, args.from_user, args.count))
+    elif args.command == "status":
+        pprint(loklak.status())
+    elif args.command == "suggest":       
+        pprint(loklak.suggest(args.query, args.count, args.order, args.orderby, args.since, args.until))
+    elif args.command == "crawler":
+        pass
+    elif args.command == "hello":
+        pprint(loklak.hello())
+    elif args.command == "geocode":
+        pprint(loklak.geocode(args.places.split(', ')))
+    elif args.command == "peers":
+        pprint(loklak.peers())
+    elif args.command == "pushgeojson":
+        pass
+    elif args.command == "user":
+        pprint(loklak.search(args.screen_name.split(), args.followers, args.following))
+    elif args.command == "map":
+        data = loklak.get_map(args.latitude, args.longitude, args.width, args.height, args.zoom, args.text)
+        with open(os.path.join(os.getcwd(), 'map.png'), 'wb') as f:
+            f.write(data)
+    elif args.command == "markdown":
+        data = loklak.get_markdown(args.text, args.color_text, args.color_background, args.padding, args.uppercase)
+        with open(os.path.join(os.getcwd(), 'markdown.png'), 'wb') as f:
+            f.write(data)
+    else:
+        print('Choose API method.')
+
+if __name__ == '__main__':
+    main()
