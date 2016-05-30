@@ -139,8 +139,8 @@ class Loklak(object):
                 return json.dumps(return_to_user)
         else:
             return_to_user = {}
-            return_to_user['error'] = ('No user name given to query. Please '
-                                       'check and try again')
+            return_to_user['error'] = ('No user name given to query. Please'
+                                       ' check and try again')
             return json.dumps(return_to_user)
 
     def settings(self):
@@ -152,8 +152,8 @@ class Loklak(object):
             return return_to_user.json()
         else:
             return_to_user = {}
-            return_to_user['error'] = 'This API has access restrictions: \
-            only localhost clients are granted.'
+            return_to_user['error'] = 'This API has access restrictions:'
+                                        ' only localhost clients are granted.')
             return json.dumps(return_to_user)
 
     def search(self, query=None, since=None, until=None, from_user=None, count=None):
@@ -181,13 +181,13 @@ class Loklak(object):
                 return return_to_user.json()
             else:
                 return_to_user = {}
-                return_to_user['error'] = ('Something went wrong, Looks like'
+                return_to_user['error'] = ('Something went wrong, looks like'
                                            ' the server is down.')
                 return json.dumps(return_to_user)
         else:
             return_to_user = {}
             return_to_user['error'] = ('No Query string has been'
-                                       ' given to run a query for')
+                                       ' given to query for an account')
             return json.dumps(return_to_user)
 
     def suggest(self, query=None, count=None, order=None, orderby=None,since=None, until=None):
@@ -211,7 +211,8 @@ class Loklak(object):
             return return_to_user.json()
         else :
             return_to_user = {}
-            return_to_user['error'] = ('Something went wrong, looks like the server is down.')
+            return_to_user['error'] = ('Something went wrong,'
+                                        ' looks like the server is down.')
             return json.dumps(return_to_user)
 
     def aggregations(self, query=None, since=None, until=None,
@@ -245,13 +246,13 @@ class Loklak(object):
                 return return_to_user
             else:
                 return_to_user = {}
-                return_to_user['error'] = ('Something went wrong, '
-                                           'Looks like the server is down.')
+                return_to_user['error'] = ('Something went wrong,'
+                                           ' looks like the server is down.')
                 return json.dumps(return_to_user)
         else:
             return_to_user = {}
-            return_to_user['error'] = 'No Query string has been given to run an\
-             aggregation query for'
+            return_to_user['error'] = ('No Query string has been given to run'
+                                        'query for aggregations')
             return json.dumps(return_to_user)
 
     def account(self, name=None, action=None, data=None):
@@ -276,8 +277,8 @@ class Loklak(object):
                 return return_to_user.json()
             else:
                 return_to_user = {}
-                return_to_user['error'] = ('Something went wrong, '
-                                           'Looks query is wrong.')
+                return_to_user['error'] = ('Something went wrong,'
+                                           ' looks like the query is wrong.')
                 return json.dumps(return_to_user)
         # if action = update and data is provided, then make request
         elif self.action == 'update' and data:
@@ -291,10 +292,15 @@ class Loklak(object):
             else:
                 return_to_user = {}
                 return_to_user['error'] = ('Something went wrong,'
-                                           ' Looks query is wrong.')
+                                           ' looks like the query is wrong.')
                 return json.dumps(return_to_user)
         else:
             return_to_user = {}
             return_to_user['error'] = ('No Query string has been given'
-                                       ' to run an query for account')
+                                       ' given to query for an account')
+            return json.dumps(return_to_user)
+    else:
+            return_to_user = {}
+            return_to_user['error'] = ('No Query string has been given'
+                                       ' to query for an account')
             return json.dumps(return_to_user)
