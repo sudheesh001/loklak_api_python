@@ -152,7 +152,7 @@ class Loklak(object):
             return return_to_user.json()
         else:
             return_to_user = {}
-            return_to_user['error'] = 'This API has access restrictions:'
+            return_to_user['error'] = ('This API has access restrictions:'
                                         ' only localhost clients are granted.')
             return json.dumps(return_to_user)
 
@@ -298,9 +298,4 @@ class Loklak(object):
             return_to_user = {}
             return_to_user['error'] = ('No Query string has been given'
                                        ' given to query for an account')
-            return json.dumps(return_to_user)
-    else:
-            return_to_user = {}
-            return_to_user['error'] = ('No Query string has been given'
-                                       ' to query for an account')
             return json.dumps(return_to_user)
