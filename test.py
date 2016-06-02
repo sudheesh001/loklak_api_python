@@ -30,7 +30,7 @@ class TestLoklak(unittest.TestCase):
     def test_hello(self):
         """test hello instance"""
         result = self.loklak.hello()
-        self.assertEqual(result, {u'status': u'ok'})
+        self.assertEqual(result['status'], u'ok')
 
     def test_geocode(self):
         """test geological features"""
