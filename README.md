@@ -29,6 +29,17 @@ To use the loklak app, first an object of the loklak type needs to be created. D
 
 `pip install python-loklak-api`
 
+To use the GUI client for API, install `wxPython` from [here](http://www.wxpython.org/download.php) and then install [Gooey](https://github.com/chriskiehl/Gooey) `pip` module. 
+
+`pip install Gooey`
+
+Then add 
+``` 
+from gooey import Gooey
+@Gooey
+```
+before `def main():` in `/bin/loklak` 
+
 Loklak once installed, can be used in the application as
 
 `from loklak import Loklak`
