@@ -1,6 +1,7 @@
 ## Python Loklak API
 [![PyPI version](https://badge.fury.io/py/python-loklak-api.svg)](https://badge.fury.io/py/python-loklak-api)
 [![Build Status](https://travis-ci.org/loklak/python-loklak-api.svg?branch=master)](https://travis-ci.org/loklak/python-loklak-api)
+[![Coverage Status](https://coveralls.io/repos/github/loklak/loklak_python_api/badge.svg?branch=master)](https://coveralls.io/github/loklak/loklak_python_api?branch=master)
 [![Code Health](https://landscape.io/github/loklak/python-loklak-api/master/landscape.svg?style=flat)](https://landscape.io/github/loklak/python-loklak-api/master)
 --------------------------------------------
 

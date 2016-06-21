@@ -1,7 +1,13 @@
 language: python
 python:
   - "2.7"
-install: "pip install -r requirements.txt"
+install: 
+  - pip install -r requirements.txt
+  - pip install python-coveralls
+  - pip install coverage
+  - pip install nose
 script:
-- python setup.py install
-- python test.py
+  - python setup.py install
+  - nosetests --with-coverage
+after_success:  
+  - coveralls
