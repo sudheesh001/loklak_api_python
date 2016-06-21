@@ -7,6 +7,8 @@ from __future__ import (absolute_import, division,
 import json
 import re
 import requests
+from xmljson import badgerfish as bf
+from json import dumps
 
 
 class Loklak(object):
@@ -53,6 +55,17 @@ class Loklak(object):
         else:
             return_to_user = {}
             return json.dumps(return_to_user)
+
+    def xmlToJson(self, xmlData = None):
+        """Converts XML to JSON as the service"""
+        jsonData = ''
+        if xmlData:
+            jsonData = dumps(bf.data(fromstring(xmlData)))
+        return jsonData
+
+    def csvToJson(self):
+        """Converts CSV to JSON as the service"""
+
 
     def hello(self):
         """Gives a hello"""
