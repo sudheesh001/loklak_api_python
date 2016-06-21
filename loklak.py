@@ -9,6 +9,7 @@ import re
 import requests
 from xmljson import badgerfish as bf
 from json import dumps
+import csv
 
 
 class Loklak(object):
@@ -63,9 +64,13 @@ class Loklak(object):
             jsonData = dumps(bf.data(fromstring(xmlData)))
         return jsonData
 
-    def csvToJson(self):
+    def csvToJson(self, csvData = None, fieldnamesList = None):
         """Converts CSV to JSON as the service"""
-
+        jsonData = ''
+        if csvData:
+            data = csv.DictReader( csvData, fieldnames = fieldnamesList)
+            jsonData = json.dumps( [ row for row in data ] )
+            return out
 
     def hello(self):
         """Gives a hello"""
