@@ -24,6 +24,10 @@ pprint(status)
 hello = l.hello()
 pprint(hello)
 
+# Loklak Susi API
+susi = l.susi('Hi I am Sudheesh')
+pprint(susi)
+
 # Loklak Peers API
 
 peers = l.peers()
