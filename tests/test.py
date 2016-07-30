@@ -77,6 +77,12 @@ class TestLoklak(unittest.TestCase):
         self.assertTrue(len(result['peers']) >= 1)
         self.assertEqual(len(result['peers']), result['count'])
 
+    def test_push(self):
+        """Test for push data to index"""
+        data={   "statuses": [     {       "id_str": "yourmessageid_1234",       "screen_name": "testuser",       "created_at": "2016-07-22T07:53:24.000Z",       "text": "The rain is spain stays always in the plain",       "source_type": "GENERIC",       "place_name": "Georgia, USA",       "location_point": [3.058579854228782,50.63296878274201],       "location_radius": 0,       "user": {         "user_id": "youruserid_5678",         "name": "Mr. Bob",       }     }   ] }
+        result = self.loklak.push(data)
+        self.assertTrue('status' in result)
+
     def test_user(self):
         """test user"""
         result = self.loklak.user('dhruvRamani98')
