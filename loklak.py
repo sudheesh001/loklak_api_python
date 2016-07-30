@@ -133,6 +133,34 @@ class Loklak(object):
             return_to_user = {}
             return json.dumps(return_to_user)
 
+    def push(self, data=None):
+        """Push servlet for twitter like messages"""
+        push_application = 'api/push.json'
+        url_to_give = self.baseUrl + push_application
+        headers = {
+            'User-Agent': ('Mozilla/5.0 (Android 4.4; Mobile; rv:41.0)'
+                           ' Gecko/41.0 Firefox/41.0'),
+            'From': 'info@loklak.org'
+        }
+        if data:
+            self.data = data
+            params = {}
+            params['data'] = json.dumps(self.data)
+            return_to_user = requests.post(url_to_give, data=params)
+            if return_to_user:
+                return return_to_user.json()
+            else:
+                return_to_user = {}
+                return_to_user['error'] = ('Something went wrong,'
+                                           ' looks like the query is wrong.')
+                return json.dumps(return_to_user)
+        else:
+            return_to_user = {}
+            return_to_user['error'] = ('Something went wrong,'
+                                       ' looks like the data is not correct.')
+            return json.dumps(return_to_user)
+
+
     def user(self, name=None, followers=None, following=None):
         """User information, including who they are following, and
         who follows them"""
