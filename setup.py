@@ -7,7 +7,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='python-loklak-api',
-      version='1.6',
+      version='1.7',
       description="Python API for loklak, Anonymous distributed P2P Systems.",
       author='Sudheesh Singanamalla',
       author_email='sudheesh95@gmail.com',
@@ -27,7 +27,8 @@ setup(name='python-loklak-api',
       install_requires=[
         "asyncoro==3.5",
         "requests==2.8.1",
-        "wsgiref==0.1.2"
+        "wsgiref==0.1.2",
+        "xmljson==0.1.6"
       ],
       zip_safe=False,
       download_url='https://github.com/loklak/loklak_api_python',
