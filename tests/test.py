@@ -98,13 +98,14 @@ class TestLoklak(unittest.TestCase):
 
     def test_search(self):
         """test search result"""
-        result = self.loklak.search('doctor who')
+        result = self.loklak.search('doctor who', count=18)
         self.assertTrue('error' in self.loklak.search())
         self.assertTrue('statuses' in result)
         self.assertTrue(isinstance(result['statuses'], list))
         self.assertTrue(len(result['statuses']) >= 1)
         self.assertEqual(len(result['statuses']),
                          int(result['search_metadata']['count']))
+        self.assertEqual(int(result['search_metadata']['count']), 18)
 
     def test_aggregations(self):
         """test aggregations"""
