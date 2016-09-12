@@ -1,6 +1,3 @@
-import re
-import uuid
-
 try:
     from setuptools import setup
 except ImportError:
@@ -25,7 +22,6 @@ setup(name='python-loklak-api',
           ],
       keywords="Twitter Loklak Anonymous API",
       install_requires=[
-        "asyncoro==3.5",
         "requests==2.8.1",
         "xmljson==0.1.6"
       ],
