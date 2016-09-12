@@ -27,7 +27,6 @@ setup(name='python-loklak-api',
       install_requires=[
         "asyncoro==3.5",
         "requests==2.8.1",
-        "wsgiref==0.1.2",
         "xmljson==0.1.6"
       ],
       zip_safe=False,
