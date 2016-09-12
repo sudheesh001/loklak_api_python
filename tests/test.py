@@ -56,8 +56,8 @@ class TestLoklak(unittest.TestCase):
         """Tests the get_map method"""
         map_file = os.path.join(os.getcwd(), 'markdown.png')
         data = self.loklak.get_map(17.582729, 79.118320)
-        self.assertTrue(data[:8] == '\211PNG\r\n\032\n' and
-                                    (data[12:16] == 'IHDR'))
+        self.assertTrue(data[:8] == b'\211PNG\r\n\032\n' and
+                        data[12:16] == b'IHDR')
         with open(map_file, 'wb') as file_handle:
             file_handle.write(data)
         with open(map_file, 'rb') as file_handle:
