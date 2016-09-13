@@ -1,3 +1,4 @@
+"""This module contains unit tests for every method in loklak.py."""
 from __future__ import print_function
 import unittest
 from loklak import Loklak
@@ -5,15 +6,16 @@ import os
 import sys
 
 class TestLoklak(unittest.TestCase):
-    """"test class"""
+    """"Test class."""
+
     baseUrl = 'http://loklak.org/'
 
     def setUp(self):
-        """test proper setup"""
+        """Test proper setup."""
         self.loklak = Loklak(self.baseUrl)
 
     def test_status(self):
-        """test status"""
+        """Test status."""
         result = self.loklak.status()
 
         self.assertTrue('index' in result)
@@ -28,12 +30,12 @@ class TestLoklak(unittest.TestCase):
             )
 
     def test_hello(self):
-        """test hello instance"""
+        """Test hello instance."""
         result = self.loklak.hello()
         self.assertEqual(result['status'], u'ok')
 
     def test_geocode(self):
-        """test geological features"""
+        """Test geological features."""
         result = self.loklak.geocode()
         self.assertEqual(result, '{}')
 
@@ -53,7 +55,7 @@ class TestLoklak(unittest.TestCase):
         )
 
     def test_get_map(self):
-        """Tests the get_map method"""
+        """Test the get_map method."""
         map_file = os.path.join(os.getcwd(), 'markdown.png')
         data = self.loklak.get_map(17.582729, 79.118320)
         self.assertTrue(data[:8] == b'\211PNG\r\n\032\n' and
@@ -70,7 +72,7 @@ class TestLoklak(unittest.TestCase):
             print(error)
 
     def test_peers(self):
-        """test finding peers"""
+        """Test finding peers."""
         result = self.loklak.peers()
         self.assertTrue('peers' in result)
         self.assertTrue(isinstance(result['peers'], list))
@@ -78,13 +80,13 @@ class TestLoklak(unittest.TestCase):
         self.assertEqual(len(result['peers']), result['count'])
 
     def test_push(self):
-        """Test for push data to index"""
+        """Test for push data to index."""
         data={   "statuses": [     {       "id_str": "yourmessageid_1234",       "screen_name": "testuser",       "created_at": "2016-07-22T07:53:24.000Z",       "text": "The rain is spain stays always in the plain",       "source_type": "GENERIC",       "place_name": "Georgia, USA",       "location_point": [3.058579854228782,50.63296878274201],       "location_radius": 0,       "user": {         "user_id": "youruserid_5678",         "name": "Mr. Bob",       }     }   ] }
         result = self.loklak.push(data)
         self.assertTrue('status' in result)
 
     def test_user(self):
-        """test user"""
+        """Test user."""
         result = self.loklak.user('dhruvRamani98')
         self.assertTrue('error' in self.loklak.user())
         self.assertTrue('user' in result)
@@ -92,12 +94,12 @@ class TestLoklak(unittest.TestCase):
         self.assertTrue('screen_name' in result['user'])
 
     def test_susi(self):
-        """Susi Test"""
+        """Susi test."""
         result = self.loklak.susi('Hi I am Sudheesh')
         self.assertTrue(len(result['answers']) >= 1)
 
     def test_search(self):
-        """test search result"""
+        """Test search result."""
         result = self.loklak.search('doctor who', count=18)
         self.assertTrue('error' in self.loklak.search())
         self.assertTrue('statuses' in result)
@@ -108,7 +110,7 @@ class TestLoklak(unittest.TestCase):
         self.assertEqual(int(result['search_metadata']['count']), 18)
 
     def test_aggregations(self):
-        """test aggregations"""
+        """Test aggregations."""
         result = self.loklak.aggregations('sudheesh001', '2015-01-10',
                                           '2015-10-21', ['mentions',
                                                          'hashtags'], 10)

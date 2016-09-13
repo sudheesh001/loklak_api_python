@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
+"""This module contains an example of retrieving tweets using search() function and print them in the console."""
 import sys
 from loklak import Loklak
 
