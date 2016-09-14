@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-"""The module that handles the main interface of loklak"""
+"""The module that handles the main interface of loklak."""
 from __future__ import (absolute_import, division,
                         print_function, unicode_literals)
 
@@ -13,7 +13,13 @@ import csv
 
 
 class Loklak(object):
-    """The fields for the Loklak object"""
+    """The fields for the Loklak object.
+
+    Additionaly, it contains methods that can be used for accessing
+    the Loklak API services like geocode, markdown, etc.
+
+    """
+
     baseUrl = 'http://loklak.org/'
     name = None
     followers = None
@@ -31,6 +37,12 @@ class Loklak(object):
     data = {}
 
     def __init__(self, baseUrl='http://loklak.org/'):
+        """Constructor of the Loklak class.
+
+        Args:
+            baseUrl (str): Base URL for accessing the APIs (default=http://loklak.org).
+
+        """
         baseUrl = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', baseUrl)
         try:
             if baseUrl[0]:
@@ -44,10 +56,11 @@ class Loklak(object):
             pass
 
     def getBaseUrl(self):
+        """Return the string value of baseUrl."""
         return self.baseUrl
 
     def status(self):
-        """Returns the status of the server"""
+        """Retrieve a json response about the status of the server."""
         status_application = 'api/status.json'
         url_to_give = self.baseUrl+status_application
         return_to_user = requests.get(url_to_give)
@@ -58,14 +71,14 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def xmlToJson(self, xmlData = None):
-        """Converts XML to JSON as the service"""
+        """Convert XML to JSON as the service."""
         jsonData = ''
         if xmlData:
             jsonData = dumps(bf.data(fromstring(xmlData)))
         return jsonData
 
     def csvToJson(self, csvData = None, fieldnamesList = None):
-        """Converts CSV to JSON as the service"""
+        """Convert CSV to JSON as the service."""
         jsonData = ''
         if csvData:
             data = csv.DictReader( csvData, fieldnames = fieldnamesList)
@@ -73,7 +86,7 @@ class Loklak(object):
             return out
 
     def hello(self):
-        """Gives a hello"""
+        """Retrieve a json response about the basic status of the server."""
         hello_application = 'api/hello.json'
         url_to_give = self.baseUrl+hello_application
         return_to_user = requests.get(url_to_give)
@@ -84,7 +97,23 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def geocode(self, places=None):
-        """Gives the geocode"""
+        """Provide geocoding of place names to location coordinates.
+
+        Args:
+            places (list): A list of place names.
+
+        Examples:
+            >>> l.geocode(['Barcelona'])
+            {u'locations': {u'Barcelona': {u'country': u'Spain',
+                                           u'country_code': u'ES',
+                                           u'location':[2.15898974899153,
+                                                        41.38879005861875],
+            ...
+
+        Returns:
+            json: The geocoding results based on the given place(s) name.
+
+        """
         geo_application = 'api/geocode.json'
         url_to_give = self.baseUrl+geo_application
         params = {}
@@ -98,7 +127,20 @@ class Loklak(object):
 
     def get_map(self, latitude, longitude, width=500, height=500,
                 zoom=8, text=""):
-        """Returns a map of size 500x500"""
+        """Visualize map using Loklak service.
+
+        Args:
+            latitude (float):   Latitude value.
+            longtitude (float): Longitude value.
+            width (int):        Width (default=500).
+            height (int):       Height (default=500).
+            zoom (int):         Zoom value (default=8).
+            text (str):         Value of text like Hello.
+
+        Returns:
+            bytes: An encoded map image.
+
+        """
         map_application = 'vis/map.png'
         params = {'text': text, 'mlat': latitude, 'mlon': longitude,
                   'width': width, 'height': height, 'zoom': zoom}
@@ -111,7 +153,19 @@ class Loklak(object):
 
     def get_markdown(self, text, color_text="000000", color_bg="ffffff",
                      padding="10", uppercase="true"):
-        """Returns a map of size 500x500"""
+        """Provide an image with text on it.
+
+        Args:
+            text (str):     Text to be printed, markdown possible.
+            color_text:     6-character hex code for the color.
+            color_bg:       6-character hex code for the color.
+            padding:        Space around text.
+            uppercase:      <true|false> by default true. If true the text is printed UPPERCASE.
+
+        Returns:
+            bytes: An encoded image.
+
+        """
         map_application = 'vis/markdown.png'
         params = {'text': text, 'color_text': color_text, 'color_background': color_bg,
                   'padding': padding, 'uppercase': uppercase}
@@ -123,7 +177,7 @@ class Loklak(object):
             return ''
 
     def peers(self):
-        """Gives the peers of a user"""
+        """Retrieve the peers of a user."""
         peers_application = 'api/peers.json'
         url_to_give = self.baseUrl+peers_application
         return_to_user = requests.get(url_to_give)
@@ -134,7 +188,19 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def push(self, data=None):
-        """Push servlet for twitter like messages"""
+        """Push servlet for twitter like messages.
+
+        Note:
+            The API of this function has a restrictions
+            which only localhost clients are granted.
+
+        Args:
+            data: A search result object.
+
+        Returns:
+            json: Status about the message is pushed or not.
+
+        """
         push_application = 'api/push.json'
         url_to_give = self.baseUrl + push_application
         headers = {
@@ -162,8 +228,17 @@ class Loklak(object):
 
 
     def user(self, name=None, followers=None, following=None):
-        """User information, including who they are following, and
-        who follows them"""
+        """Retrieve Twitter user information.
+
+        Args:
+            name (str):         Twitter screen name of the user.
+            followers (int):    Followers of the user.
+            following (int):    Accounts the user is following.
+
+        Returns:
+            json: User information, including who they are following, and who follows them.
+
+        """
         user_application = 'api/user.json'
         url_to_give = self.baseUrl+user_application
         self.name = name
@@ -190,7 +265,16 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def settings(self):
-        """Gives the settings of the application"""
+        """Retrieve the settings of the application.
+
+        Note:
+            The API of this function has a restrictions
+            which only localhost clients are granted.
+
+        Returns:
+            json: The settings of the application.
+
+        """
         settings_application = 'api/settings.json'
         url_to_give = self.baseUrl + settings_application
         return_to_user = requests.get(url_to_give)
@@ -203,7 +287,15 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def susi(self, query=None):
-        """Hits Susi with the required query and returns back the susi response"""
+        """Retrieve Susi query response.
+
+        Args:
+            query (str): Query term.
+
+        Returns:
+            json: Susi response.
+
+        """
         susi_application = 'api/susi.json'
         url_to_give = self.baseUrl + susi_application
         self.query = query
@@ -223,7 +315,19 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def search(self, query=None, since=None, until=None, from_user=None, count=None):
-        """Handles the searching"""
+        """Handle the searching.
+
+        Args:
+            query (str):        Query term.
+            since (str):        Only messages after the date (including the date), <date>=yyyy-MM-dd or yyyy-MM-dd_HH:mm.
+            until (str):        Only messages before the date (excluding the date), <date>=yyyy-MM-dd or yyyy-MM-dd_HH:mm.
+            from_user (str):    Only messages published by the user.
+            count (int):        The wanted number of results.
+
+        Returns:
+            json: Search results from API.
+
+        """
         search_application = 'api/search.json'
         url_to_give = self.baseUrl+search_application
         self.query = query
@@ -257,6 +361,20 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def suggest(self, query=None, count=None, order=None, orderby=None,since=None, until=None):
+        """Retrieve a list of queries based on the given criteria.
+
+        Args:
+            query (str):     To get a list of queries which match; to get all latest: leave query empty.
+            count (int):     Number of queries.
+            order (str):     Possible values: desc, asc; default: desc.
+            orderby (str):   A field name of the query index schema, i.e. retrieval_next or query_count.
+            since (str):     Left bound for a query time.
+            until (str):     Right bound for a query time.
+
+        Returns:
+            json: A list of queries in the given order.
+
+        """
         suggest_application = 'api/suggest.json'
         url_to_give = self.baseUrl+suggest_application
         params  = {}
@@ -283,7 +401,20 @@ class Loklak(object):
 
     def aggregations(self, query=None, since=None, until=None,
                      fields=None, limit=6, count=0):
-        """Gives the aggregations of the application"""
+        """Give the aggregations of the application.
+
+        Args:
+            query (str):    Query term.
+            since (str):    Only messages after the date (including the date), <date>=yyyy-MM-dd or yyyy-MM-dd_HH:mm.
+            until (str):    Only messages before the date (excluding the date), <date>=yyyy-MM-dd or yyyy-MM-dd_HH:mm.
+            fields (str):   Aggregation fields for search facets, like "created_at,mentions".
+            limit (int):    A limitation of number of facets for each aggregation.
+            count (int):    The wanted number of results.
+
+        Returns:
+            json: Aggregations of the application.
+
+        """
         aggregations_application = 'api/search.json'
         url_to_give = self.baseUrl+aggregations_application
         self.query = query
@@ -322,7 +453,38 @@ class Loklak(object):
             return json.dumps(return_to_user)
 
     def account(self, name=None, action=None, data=None):
-        """Displays users account"""
+        """Provide the storage and retrieval of the user account data.
+
+        Note:
+            The API of this function has a restrictions which only localhost
+            clients are granted. If you want to retrieve the user account
+            information, just fill the 'name' argument, and do not fill any
+            args.
+
+            If you want to store one or more account objects, fill the
+            'action' argument with "update" then submit that object
+            (these objects) inside the 'data' argument.
+
+            The data object must have this following form:
+            {
+              "screen_name"           : "test",        // primary key for the user
+              "source_type"           : "TWITTER",     // the application which created the token, by default "TWITTER"
+              "oauth_token"           : "abc",         // the oauth token
+              "oauth_token_secret"    : "def",         // the oauth token_secret
+              "authentication_first"  : "2015-06-07T09:39:22.341Z",        // optional
+              "authentication_latest" : "2015-06-07T09:39:22.341Z",        // optional
+              "apps"                  : {"wall" : {"type" : "horizontal"}} // any json
+            }
+
+        Args:
+            name (str):     Twitter screen name of the user.
+            action (str):   Proper values are either <empty> or 'update'.
+            data (str):     An object to store (if you set action=update, you must submit this data object).
+
+        Returns:
+            json: Information about user's account if the 'action' argument is empty (retrieving).
+
+        """
         account_application = 'account.json'
         url_to_give = 'http://localhost:9000/api/'+account_application
         self.name = name

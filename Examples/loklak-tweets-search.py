@@ -1,3 +1,4 @@
+"""This module contains an example for searching the tweets using search() function in loklak.py."""
 from loklak import Loklak
 
 myTweets = Loklak()

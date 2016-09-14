@@ -1,3 +1,4 @@
+"""The module that setup loklak python API."""
 try:
     from setuptools import setup
 except ImportError:

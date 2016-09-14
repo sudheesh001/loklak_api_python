@@ -1,3 +1,4 @@
+"""This module contains an example on using every function in loklak.py and print the result in the console."""
 import tempfile
 from loklak import Loklak
 from pprint import pprint
