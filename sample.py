@@ -113,7 +113,7 @@ pprint(search7)
 
 ###loklak Suggestion API
 suggestion1 = l.suggest()
-pprint(suggest1)
+pprint(suggestion1)
 
 suggestion2 = l.suggest(count=20, order='desc')
 pprint(suggestion2)
