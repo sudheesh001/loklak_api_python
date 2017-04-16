@@ -21,6 +21,7 @@ class Loklak(object):
     """
 
     baseUrl = 'http://loklak.org/'
+    baseUrlSusi = 'http://api.asksusi.com/'
     name = None
     followers = None
     following = None
@@ -296,8 +297,8 @@ class Loklak(object):
             json: Susi response.
 
         """
-        susi_application = 'api/susi.json'
-        url_to_give = self.baseUrl + susi_application
+        susi_application = 'susi/chat.json'
+        url_to_give = self.baseUrlSusi + susi_application
         self.query = query
         if query:
             params = {}
